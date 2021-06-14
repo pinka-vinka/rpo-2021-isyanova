@@ -3,7 +3,11 @@
 
 # Sets the minimum version of CMake required to build the native library.
 
-cmake_minimum_required(VERSION 3.4.1)
+cmake_minimum_required(VERSION 3.10.2)
+
+# Declares and names the project.
+
+project("fclient")
 
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
@@ -19,32 +23,6 @@ add_library( # Sets the name of the library.
              # Provides a relative path to your source file(s).
              native-lib.cpp )
 
-#add spdlog
-add_definitions(-DSDLOG_COMPILED_LIB)
-add_library(spdlog STATIC IMPORTED)
-set_target_properties(
-        spdlog PROPERTIES IMPORTED_LOCATION C:/Users/Public/AndroidStudioProjects/libs/spdlog/build/${ANDROID_ABI}/libspdlog.a
-)
-
-target_include_directories(
-        native-lib PUBLIC
-        C:/Users/Public/AndroidStudioProjects/libs/spdlog/spdlog/include
-        C:/Users/Public/AndroidStudioProjects/libs/mbedtls/mbedtls/include
-
-)
-
-add_library(mbedcrypto SHARED IMPORTED)
-set_target_properties(
-        mbedcrypto PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/../cmakeLibs/${ANDROID_ABI}/libmbedcrypto.so
-)
-
-configure_file(
-        C:/Users/Public/AndroidStudioProjects/libs/mbedtls/build/${ANDROID_ABI}/library/libmbedcrypto.so
-        ${CMAKE_CURRENT_SOURCE_DIR}/../cmakeLibs/${ANDROID_ABI}/libmbedcrypto.so
-        COPYONLY
-)
-
-
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
 # default, you only need to specify the name of the public NDK library
@@ -58,6 +36,28 @@ find_library( # Sets the name of the path variable.
               # you want CMake to locate.
               log )
 
+# add spdlog
+add_definitions(-DSPDLOG_COMPILED_LIB)
+add_library(spdlog STATIC IMPORTED)
+set_target_properties(
+        spdlog PROPERTIES IMPORTED_LOCATION C:/Users/xasan/AndroidStudioProjects/libs/spdlog/build/${ANDROID_ABI}/libspdlog.a
+)
+
+target_include_directories(
+        native-lib PUBLIC
+        C:/Users/xasan/AndroidStudioProjects/libs/spdlog/spdlog/include
+        C:/Users/xasan/AndroidStudioProjects/libs/mbedtls/mbedtls/include
+)
+
+add_library(mbedcrypto SHARED IMPORTED)
+set_target_properties(
+        mbedcrypto PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/../cmakeLibs/${ANDROID_ABI}/libmbedcrypto.so
+)
+
+configure_file(
+        C:/Users/xasan/AndroidStudioProjects/libs/mbedtls/build/${ANDROID_ABI}/library/libmbedcrypto.so
+        ${CMAKE_CURRENT_SOURCE_DIR}/../cmakeLibs/${ANDROID_ABI}/libmbedcrypto.so
+        COPYONLY)
 # Specifies libraries CMake should link to your target library. You
 # can link multiple libraries, such as libraries you define in this
 # build script, prebuilt third-party libraries, or system libraries.
